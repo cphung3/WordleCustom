@@ -7,6 +7,27 @@ using UnityEditor;
 public class GameFlowManagerEditor : Editor
 {
     string m_spoiler = null;
+
+    GameFlowManager m_manager = null;
+
+    private void OnEnable()
+    {
+        m_manager = (GameFlowManager)target;
+        m_manager.Restarted += OnRestarted;
+    }
+
+    private void OnRestarted()
+    {
+        m_spoiler = null;
+        Repaint();
+    }
+
+    private void OnDisable()
+    {
+        m_manager.Restarted -= OnRestarted;
+        m_manager = null;
+    }
+
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
@@ -19,7 +40,7 @@ public class GameFlowManagerEditor : Editor
             {
                 if(GUILayout.Button("Spoiler"))
                 {
-                    m_spoiler = ((GameFlowManager)target).GetWord();
+                    m_spoiler = m_manager.GetWord();
                 }
             }
             else

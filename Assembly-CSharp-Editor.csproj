@@ -58,8 +58,8 @@
   <ItemGroup>
     <Compile Include="Assets\TutorialInfo\Scripts\Editor\ReadmeEditor.cs" />
     <Compile Include="Assets\EckTechGames\AutoSave\Editor\AutoSaveExtension.cs" />
-    <Compile Include="Assets\Editor\LetterEditor.cs" />
     <Compile Include="Assets\Editor\GameFlowManagerEditor.cs" />
+    <Compile Include="Assets\Editor\LetterEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

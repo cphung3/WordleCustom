@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -28,6 +29,10 @@ public class GameFlowManager : MonoBehaviour
     [Tooltip("Offset for letter animation")]
     float m_letterAnimationOffsetTime = .5f;
 
+    [SerializeField]
+    [Tooltip("Keys on keyboard")]
+    Key[] m_keys = null;
+
     List<Letter> m_letters = null;
     int m_index = 0;
     int m_currentRow = 0;
@@ -35,6 +40,8 @@ public class GameFlowManager : MonoBehaviour
     char[] m_word = new char[k_wordLength];
 
     public PuzzleState PuzzleState { get; private set; } = PuzzleState.InProgress;
+
+    public Action Restarted;
 
     // Start is caled before the first frame update
     void Start()
@@ -44,6 +51,11 @@ public class GameFlowManager : MonoBehaviour
     void Awake()
     {
         SetupGrid();
+
+        foreach(Key key in m_keys)
+        {
+            key.Pressed += OnKeyPressed;
+        }
     }
 
     // Update is called once per frame
@@ -55,10 +67,68 @@ public class GameFlowManager : MonoBehaviour
         }
     }
 
+    void OnKeyPressed(KeyCode keyCode)
+    {
+        if (PuzzleState != PuzzleState.InProgress)
+        {
+            if (keyCode == KeyCode.Return)
+            {
+                Restart();
+            }
+            return;
+        }
+
+        if (keyCode == KeyCode.Return)
+        {
+            GuessWord();
+        }
+        else if (keyCode == KeyCode.Backspace || keyCode == KeyCode.Delete)
+        {
+            DeleteLetter();
+        }
+        else if (keyCode >= KeyCode.A && keyCode <= KeyCode.Z)
+        {
+            int index = keyCode - KeyCode.A;
+            EnterLetter((char)((int)'A' + index));
+        }
+    }
+
+    public void Restart()
+    {
+        PuzzleState = PuzzleState.InProgress;
+
+        foreach (Letter letter in m_letters)
+        {
+            letter.Clear();
+        }
+        foreach (Key key in m_keys)
+        {
+            key.ResetState();
+        }
+        m_index = 0;
+        m_currentRow = 0;
+
+        for (int i = 0; i < k_wordLength; i++)
+        {
+            m_guess[i] = null;
+        }
+        SetWord();
+
+        Restarted?.Invoke();
+    }
+
     public void ParseInput(string value)
     {
         if(PuzzleState != PuzzleState.InProgress)
         {
+            foreach (char c in value)
+            {
+                if ((c == '\n') || (c == '\r')) // enter or return 
+                {
+                    Restart();
+                    return;
+                }
+            }
             return;
         }
         foreach (char c in value)
@@ -98,7 +168,7 @@ public class GameFlowManager : MonoBehaviour
 
     public void SetWord()
     {
-        string word = m_wordRepository.GetRandomWord();
+        string word = m_wordRepository.GetRandomWord().ToUpper();
         for (int i = 0; i < word.Length; i++)
         {
             m_word[i] = word[i];
@@ -208,6 +278,18 @@ public class GameFlowManager : MonoBehaviour
     {
         yield return new WaitForSeconds(offset);
         m_letters[index].SetState(letterState);
+
+        int indexOfChar = (int)m_letters[index].Entry.Value - (int)'A';
+        KeyCode keyCode = indexOfChar + KeyCode.A;
+
+        foreach (Key key in m_keys)
+        {
+            if (key.KeyCode == keyCode)
+            {
+                key.SetState(letterState);
+                break;
+            }
+        }
     }
 
 }

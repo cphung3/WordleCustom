@@ -62,5 +62,6 @@ public class Letter : MonoBehaviour
         m_animator.SetInteger(k_animatorStateParameter, -1);
         m_animator.SetTrigger(k_animatorResetTrigger);
         Entry = null;
+        m_text.text = null;
     }
 }

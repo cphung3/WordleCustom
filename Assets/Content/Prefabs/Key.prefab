@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 4399440267454092717}
   - component: {fileID: 4399440267454092714}
   - component: {fileID: 4399440267454092715}
-  - component: {fileID: 2331610377942460276}
+  - component: {fileID: 5184916467648376713}
   m_Layer: 5
   m_Name: Key
   m_TagString: Untagged
@@ -258,7 +258,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &2331610377942460276
+--- !u!114 &5184916467648376713
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -270,4 +270,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0046daa9f3fa2e9479a668c0fb353e28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_keyCode: 113
+  m_keyCode: 0
+  m_letterStateColors:
+  - Color: {r: 0, g: 0.8396226, b: 0.056245834, a: 1}
+    LetterState: 0
+  - Color: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 1}
+    LetterState: 1
+  - Color: {r: 0.84639096, g: 0.8679245, b: 0.25792095, a: 1}
+    LetterState: 2

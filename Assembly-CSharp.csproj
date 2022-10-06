@@ -57,11 +57,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Letter.cs" />
+    <Compile Include="Assets\Scripts\WordRepository.cs" />
     <Compile Include="Assets\Scripts\Key.cs" />
     <Compile Include="Assets\Scripts\LetterState.cs" />
     <Compile Include="Assets\Scripts\GameFlowManager.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
-    <Compile Include="Assets\Scripts\WordRepository.cs" />
     <Compile Include="Assets\Scripts\PuzzleState.cs" />
   </ItemGroup>
   <ItemGroup>
